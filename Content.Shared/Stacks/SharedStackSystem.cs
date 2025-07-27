@@ -7,6 +7,7 @@ using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Verbs;
 using JetBrains.Annotations;
 using Robust.Shared.GameStates;
+using Robust.Shared.Map; // Goobstation
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
