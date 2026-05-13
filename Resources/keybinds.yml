@@ -1,5 +1,10 @@
 ﻿version: 1 # Not used right now, whatever.
 binds:
+# <Trauma>
+- function: Strafe
+  type: State
+  key: Shift
+# </Trauma>
 - function: UIClick
   type: State
   key: MouseLeft
