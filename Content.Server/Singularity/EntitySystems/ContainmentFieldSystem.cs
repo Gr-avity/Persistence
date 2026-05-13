@@ -1,3 +1,6 @@
+// <Trauma>
+using Content.Goobstation.Common.Singularity;
+// </Trauma>
 using Content.Server.Popups;
 using Content.Server.Singularity.Events;
 using Content.Shared.Popups;
@@ -64,6 +67,13 @@ public sealed class ContainmentFieldSystem : EntitySystem
     private void HandleFieldCollide(EntityUid uid, ContainmentFieldComponent component, ref StartCollideEvent args)
     {
         var otherBody = args.OtherEntity;
+
+        // <Trauma>
+        var ev = new ContainmentFieldThrowEvent(otherBody, uid);
+        RaiseLocalEvent(otherBody, ref ev, true);
+        if (ev.Cancelled)
+            return;
+        // </Trauma>
 
         if (component.DestroyGarbage && HasComp<SpaceGarbageComponent>(otherBody))
         {
