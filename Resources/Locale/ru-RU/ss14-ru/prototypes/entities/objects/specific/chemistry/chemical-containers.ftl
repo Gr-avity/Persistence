@@ -114,3 +114,5 @@ ent-JugSaline = { ent-Jug }
 ent-JugDexalinPlus = { ent-Jug }
     .desc = { ent-Jug.desc }
     .suffix = дексалин плюс
+ent-BluespaceJug = блюспейс кувшин
+    .desc = Высокотехнологичный кувшин, использующий блюспейс-технологии, чтобы вмещать невероятно большое количество жидкости.

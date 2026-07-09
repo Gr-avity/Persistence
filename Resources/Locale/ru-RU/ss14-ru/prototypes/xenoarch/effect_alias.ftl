@@ -1,0 +1,16 @@
+ent-XenoArtifactDrill = { ent-XenoArtifactToolDrill }
+    .desc = { ent-XenoArtifactToolDrill.desc }
+ent-XenoArtifactMaterialSpawnGlass = { ent-XenoArtifactMaterialSpawnGlassFew }
+    .desc = { ent-XenoArtifactMaterialSpawnGlassFew.desc }
+ent-XenoArtifactMaterialSpawnPlastic = { ent-XenoArtifactMaterialSpawnPlasticFew }
+    .desc = { ent-XenoArtifactMaterialSpawnPlasticFew.desc }
+ent-XenoArtifactMaterialSpawnSteel = { ent-XenoArtifactMaterialSpawnSteelFew }
+    .desc = { ent-XenoArtifactMaterialSpawnSteelFew.desc }
+ent-XenoArtifactRareMaterialSpawnGold = { ent-XenoArtifactRawMaterialSpawnGoldFew }
+    .desc = { ent-XenoArtifactRawMaterialSpawnGoldFew.desc }
+ent-XenoArtifactRareMaterialSpawnPlasma = { ent-XenoArtifactRawMaterialSpawnPlasmaFew }
+    .desc = { ent-XenoArtifactRawMaterialSpawnPlasmaFew.desc }
+ent-XenoArtifactRareMaterialSpawnSilver = { ent-XenoArtifactRawMaterialSpawnSilverFew }
+    .desc = { ent-XenoArtifactRawMaterialSpawnSilverFew.desc }
+ent-XenoArtifactRareMaterialSpawnUranium = { ent-XenoArtifactRawMaterialSpawnUraniumFew }
+    .desc = { ent-XenoArtifactRawMaterialSpawnUraniumFew.desc }

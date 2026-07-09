@@ -39,6 +39,7 @@ materials-coal = уголь
 materials-diamond = алмазы
 materials-gunpowder = чёрный порох
 materials-cotton = хлопок
+materials-pyrotton = пироттон
 
 # Ores
 materials-raw-iron = руда железа

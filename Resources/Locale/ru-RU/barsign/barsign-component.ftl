@@ -4,6 +4,10 @@ barsign-ui-set-label = Выбрать вывеску:
 
 # Bar signs prototypes
 
+## The Inventory
+barsign-prototype-name-inventory = Инвентарь
+barsign-prototype-description-inventory = Известен своими играми в покер по крупным ставкам.
+
 ## The Harmbaton
 barsign-prototype-name-harmbaton = Хармбатон
 barsign-prototype-description-harmbaton = Отличные обеды как для сотрудников службы безопасности, так и для пассажиров.

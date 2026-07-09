@@ -59,3 +59,4 @@ lathe-category-gloves = Перчатки
 lathe-category-belts = Пояса
 lathe-category-glasses = Очки
 lathe-category-masks = Маски
+lathe-category-plushies = Плюшевые игрушки
