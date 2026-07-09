@@ -6,7 +6,7 @@ playing-card-name = { $card } { $suit ->
     [diamonds] бубен
     [hearts] червей
     [spades] пик
-   *[invalid] { $suit }
+    *[invalid] { $suit }
 }
 playing-card-desc = Какое изящное исполнение!
 
@@ -15,7 +15,7 @@ playing-card-suit-name = { $suit ->
     [diamonds] Бубны
     [hearts] Черви
     [spades] Пики
-   *[invalid] !!{ $suit }!!
+    *[invalid] !!{ $suit }!!
 }
 
 playing-card-value-name = { $card ->
@@ -23,7 +23,7 @@ playing-card-value-name = { $card ->
     [j] Валет
     [q] Дама
     [k] Король
-   *[other] { $card }
+    *[other] { $card }
 }
 
 playing-card-joker = Джокер

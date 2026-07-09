@@ -178,7 +178,6 @@ ent-XenoArtifactHealRare = { ent-BaseXenoArtifactEffect }
     .desc = Излечивает редкие виды травм
 ent-XenoArtifactHealAll = { ent-BaseXenoArtifactEffect }
     .desc = Чудесное исцеление
-  .desc = Создание стопки пластика
 ent-XenoArtifactTesla = { ent-BaseOneTimeXenoArtifactEffect }
     .desc = Массовое разрушение
 ent-XenoArtifactSingularity = { ent-BaseOneTimeXenoArtifactEffect }

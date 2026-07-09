@@ -9,14 +9,14 @@ nuno-card-suit-name = { $suit ->
     [nunoyellow] Желтый
     [nunogreen] Зеленый
     [nunoblue] Синий
-   *[invalid] !!{ $suit }!!
+    *[invalid] !!{ $suit }!!
 }
 
 nuno-card-value-name = { $card ->
     [plus2] Плюс 2
     [reverse] Реверс
     [skip] Пропуск хода
-   *[other] { $card }
+    *[other] { $card }
 }
 
 playing-card-wildcard = Дикая карта
