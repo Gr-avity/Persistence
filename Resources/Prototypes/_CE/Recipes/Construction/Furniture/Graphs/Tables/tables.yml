@@ -1,0 +1,24 @@
+- type: constructionGraph
+  id: CEWorkbench
+  start: start
+  graph:
+    - node: start
+      actions:
+        - !type:DestroyEntity {}
+      edges:
+        - to: CEWorkbench
+          steps:
+            - material: CEWood
+              amount: 3
+              doAfter: 2
+    - node: CEWorkbench
+      entity: CEWorkbench
+      edges:
+      - to: start
+        steps:
+        - tool: Prying
+          doAfter: 5
+        completed:
+        - !type:SpawnPrototype
+          prototype: CEWoodenPlanks1
+          amount: 3

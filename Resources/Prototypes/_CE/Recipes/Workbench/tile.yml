@@ -1,0 +1,12 @@
+- type: CERecipe
+  id: FloorTileItemSteel
+  tag: CERecipeWorkbench
+  category: FloorTile
+  craftTime: 1
+  requirements:
+  - !type:StackResource
+    stack: Steel
+    count: 1
+  result: FloorTileItemSteel
+  resultCount: 5
+
