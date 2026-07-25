@@ -22,6 +22,7 @@ public sealed class MoverController : SharedMoverController
         "Amount of ActiveInputMovers being processed by MoverController");
 
     [Dependency] private readonly ThrusterSystem _thruster = default!;
+	[Dependency] private readonly DockingSystem _docking = default!; // Art-edit
 
     private Dictionary<EntityUid, (ShuttleComponent, List<(EntityUid, PilotComponent, InputMoverComponent, TransformComponent)>)> _shuttlePilots = new();
 
@@ -518,16 +519,25 @@ public sealed class MoverController : SharedMoverController
                         force.Y -= shuttle.LinearThrust[index];
                     }
 
-                    var impulse = force * brakeInput * ShuttleComponent.BrakeCoefficient;
-                    impulse = shuttleNorthAngle.RotateVec(impulse);
-                    var forceMul = frameTime * body.InvMass;
+					var impulse = force * brakeInput * ShuttleComponent.BrakeCoefficient;
+					impulse = shuttleNorthAngle.RotateVec(impulse);
+
+                    // Art-start
+					var dockedGridsBrake = GetDockedGrids(shuttleUid);
+                    var totalMassBrake = body.Mass;
+                    foreach (var (_, db) in dockedGridsBrake) totalMassBrake += db.Mass;
+
+                    var forceMul = frameTime / totalMassBrake;
                     var maxVelocity = (-body.LinearVelocity).Length() / forceMul;
 
                     // Don't overshoot
                     if (impulse.Length() > maxVelocity)
                         impulse = impulse.Normalized() * maxVelocity;
 
-                    PhysicsSystem.ApplyForce(shuttleUid, impulse, body: body);
+                    PhysicsSystem.ApplyForce(shuttleUid, impulse * (body.Mass / totalMassBrake), body: body);
+                    foreach (var (dockedGrid, dockedBody) in dockedGridsBrake)
+                        PhysicsSystem.ApplyForce(dockedGrid, impulse * (dockedBody.Mass / totalMassBrake), body: dockedBody);
+                    // Art-end
                 }
                 else
                 {
@@ -623,10 +633,14 @@ public sealed class MoverController : SharedMoverController
                     totalForce += impulse;
                 }
 
-                var forceMul = frameTime * body.InvMass;
+				// Art-start
+                var dockedGridsThrust = GetDockedGrids(shuttleUid);
+                var totalMassThrust = body.Mass;
+                foreach (var (_, db) in dockedGridsThrust) totalMassThrust += db.Mass;
+
+                var forceMul = frameTime / totalMassThrust;
 
                 var localVel = (-shuttleNorthAngle).RotateVec(body.LinearVelocity);
-				// Art-start
                 var maxVelocity = ObtainMaxVel(localVel, shuttle, body);
                 var maxWishVelocity = ObtainMaxVel(totalForce, shuttle, body);
 				// Art-end
@@ -644,8 +658,14 @@ public sealed class MoverController : SharedMoverController
 
                 finalForce = shuttleNorthAngle.RotateVec(finalForce);
 
+				// Art-start
                 if (finalForce.Length() > 0f)
-                    PhysicsSystem.ApplyForce(shuttleUid, finalForce, body: body);
+                {
+                    PhysicsSystem.ApplyForce(shuttleUid, finalForce * (body.Mass / totalMassThrust), body: body);
+                    foreach (var (dockedGrid, dockedBody) in dockedGridsThrust)
+                        PhysicsSystem.ApplyForce(dockedGrid, finalForce * (dockedBody.Mass / totalMassThrust), body: dockedBody);
+                }
+				// Art-end
             }
 
             if (MathHelper.CloseTo(angularInput, 0f))
@@ -684,6 +704,33 @@ public sealed class MoverController : SharedMoverController
     {
         return Vector2.Dot(value1, value2);
     }
+
+    // Art-start
+	private List<(EntityUid GridUid, PhysicsComponent Body)> GetDockedGrids(EntityUid shuttleUid)
+    {
+        var result = new List<(EntityUid, PhysicsComponent)>();
+        var seenGrids = new HashSet<EntityUid>();
+
+        foreach (var dock in _docking.GetDocks(shuttleUid))
+        {
+            if (dock.Comp.DockedWith == null)
+                continue;
+
+            if (!XformQuery.TryComp(dock.Comp.DockedWith.Value, out var otherXform) ||
+                otherXform.GridUid == null)
+                continue;
+
+            var dockedGrid = otherXform.GridUid.Value;
+            if (!seenGrids.Add(dockedGrid))
+                continue; // уже считали этот грид
+
+            if (PhysicsQuery.TryComp(dockedGrid, out var dockedBody))
+                result.Add((dockedGrid, dockedBody));
+        }
+
+        return result;
+    }
+    // Art-end
 
     private bool CanPilot(EntityUid shuttleUid)
     {
