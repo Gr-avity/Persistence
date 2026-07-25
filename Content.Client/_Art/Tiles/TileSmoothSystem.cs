@@ -17,6 +17,18 @@ public sealed class TileSmoothSystem : EntitySystem
         _overlay = new TileSmoothOverlay();
         _overlayMan.AddOverlay(_overlay);
         SubscribeLocalEvent<TileChangedEvent>(OnTileChanged);
+		SubscribeLocalEvent<GridInitializeEvent>(OnGridInit);
+		SubscribeLocalEvent<GridRemovalEvent>(OnGridRemoved);
+    }
+
+    private void OnGridRemoved(GridRemovalEvent ev)  
+    {  
+        _overlay.InvalidateGrid(ev.EntityUid);  
+    }
+
+    private void OnGridInit(GridInitializeEvent ev)
+    {
+        _overlay.InvalidateGrid(ev.EntityUid);
     }
 
     public override void Shutdown()

@@ -6,6 +6,7 @@ using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using System.Numerics;
+using System.Linq;
 
 namespace Content.Client._Art.Tiles;
 
@@ -46,6 +47,12 @@ public sealed class TileSmoothOverlay : Overlay
         _xformSys  = _entManager.System<SharedTransformSystem>();
     }
 
+    public void InvalidateGrid(EntityUid gridUid)
+    {
+        var keys = _cornerCache.Keys.Where(k => k.Item1 == gridUid).ToList();
+        foreach (var key in keys)
+            _cornerCache.Remove(key);
+    }
     public void InvalidateCache(EntityUid gridUid, Vector2i pos)
     {
         _cornerCache.Remove((gridUid, pos));
