@@ -73,7 +73,7 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
     private readonly Dictionary<Color, List<(Vector2 Position, string Text, float Scale)>> _strings = new();
     private readonly List<ShuttleExclusionObject> _viewportExclusions = new();
 
-    public ShuttleMapControl() : base(256f, 512f, 512f)
+    public ShuttleMapControl() : base(2560f, 5120f, 5120f)
     {
         RobustXamlLoader.Load(this);
         _mapSystem = EntManager.System<SharedMapSystem>();
@@ -159,7 +159,7 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
         var tex = _shuttles.GetTexture(shuttleXform.MapUid.Value);
 
         // Size of the texture in world units.
-        var size = tex.Size * MinimapScale * 1f;
+        var size = tex.Size * MinimapScale * 20f;
 
         var position = ScalePosition(new Vector2(-Offset.X, Offset.Y));
         var slowness = 1f;
