@@ -24,6 +24,8 @@ namespace Content.Server.Research.Systems
         [Dependency] private readonly SharedPopupSystem _popup = default!;
         [Dependency] private readonly RadioSystem _radio = default!;
         [Dependency] private readonly StationSystem _station = default!;
+		[Dependency] private readonly SharedTransformSystem _xformSystem = default!; // Art-edit
+
         public override void Initialize()
         {
             base.Initialize();

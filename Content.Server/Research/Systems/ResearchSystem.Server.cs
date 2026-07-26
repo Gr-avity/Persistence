@@ -91,9 +91,8 @@ public sealed partial class ResearchSystem
 
         foreach (var client in clientSet)
         {
-            var clientXform = Transform(client.Owner);
-            var pos = clientXform.LocalPosition;
-            var posStr = $"({(int)MathF.Round(pos.X)}, {(int)MathF.Round(pos.Y)})";
+            var worldPos = _xformSystem.GetWorldPosition(client.Owner);
+            var posStr = $"({(int)MathF.Round(worldPos.X)}, {(int)MathF.Round(worldPos.Y)})";
 
             var name = Identity.Name(client.Owner, EntityManager);
             var allowed = ent.Comp.AllowedClients.Contains(client.Owner);
