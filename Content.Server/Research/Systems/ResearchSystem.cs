@@ -90,10 +90,15 @@ namespace Content.Server.Research.Systems
             var clientStation = _station.GetOwningStation(client);
             foreach (var thing in set)
             {
-                if (_station.GetOwningStation(thing.Owner) == clientStation)
-                {
-                    final.Add(thing);
-                }
+                if (_station.GetOwningStation(thing.Owner) != clientStation)
+                    continue;
+
+                // Art-start
+                if (!thing.Comp.AllowedClients.Contains(client))
+                    continue;
+
+                final.Add(thing);
+				// Art-end
             }
             return final;
         }
