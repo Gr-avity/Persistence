@@ -6,6 +6,7 @@ using Content.Shared.Examine;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Throwing;
+using Content.Shared.Hands.EntitySystems; // Art-change
 using Robust.Shared.Containers;
 using Robust.Shared.Physics.Events;
 
@@ -18,6 +19,7 @@ public abstract class SharedInteractorSystem : EntitySystem
     [Dependency] private readonly CollisionWakeSystem _wake = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!; // Art-change
     [Dependency] protected readonly StartableMachineSystem Machine = default!;
 
     private EntityQuery<ActiveDoAfterComponent> _doAfterQuery;
@@ -124,11 +126,18 @@ public abstract class SharedInteractorSystem : EntitySystem
 
     protected bool InteractWith(Entity<InteractorComponent> ent, EntityUid target)
     {
-        if (_handsQuery.CompOrNull(ent)?.ActiveHandEntity is not {} tool)
+        if (_handsQuery.CompOrNull(ent)?.ActiveHandId is not {} hand) // Art-change
             return _interaction.InteractHand(ent, target);
 
         var coords = Transform(target).Coordinates;
-        return _interaction.InteractUsing(ent, tool, target, coords);
+        // Art-change start
+        var tool = _hands.GetHeldItem((ent, _handsQuery.CompOrNull(ent)), hand);
+
+        if (tool == null)
+            return _interaction.InteractHand(ent, target);
+
+        return _interaction.InteractUsing(ent, tool.Value, target, coords);
+        // Art-change end
     }
 
     protected void TryRemoveTarget(Entity<InteractorComponent> ent, EntityUid target)
@@ -162,9 +171,11 @@ public abstract class SharedInteractorSystem : EntitySystem
 
     private void UpdateToolAppearance(EntityUid uid)
     {
-        var state = _handsQuery.CompOrNull(uid)?.ActiveHand?.IsEmpty == false
-            ? InteractorState.Inactive
-            : InteractorState.Empty;
+        // Art-change start
+        var hands = _handsQuery.CompOrNull(uid);
+        var heldItem = _hands.GetHeldItem((uid, hands), hands?.ActiveHandId);
+        var state = heldItem != null ? InteractorState.Inactive : InteractorState.Empty;
+        // Art-change end
         UpdateAppearance(uid, state);
     }
 

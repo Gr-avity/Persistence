@@ -42,19 +42,19 @@ public sealed partial class AutomatedHand : AutomationSlot
     {
         return Hand is { } hand
             && base.Insert(item)
-            && _hands.TryPickup(Owner, item, hand);
+            && _hands.TryPickup(Owner, item, HandName); // Art-change
     }
 
     public override bool CanInsert(EntityUid item)
     {
         return Hand is { } hand
             && base.CanInsert(item)
-            && _hands.CanPickupToHand(Owner, item, hand);
+            && _hands.CanPickupToHand(Owner, item, HandName); // Art-change
     }
 
     public override EntityUid? GetItem(EntityUid? filter)
     {
-        if (Hand?.HeldEntity is not { } item
+        if (_hands.GetHeldItem(Owner, HandName) is not { } item // Art-change
             || _filter.IsBlocked(filter, item))
             return null;
 

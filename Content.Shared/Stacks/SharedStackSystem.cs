@@ -109,6 +109,15 @@ public abstract partial class SharedStackSystem : EntitySystem
         _storage.PlayPickupAnimation(args.Used, popupPos, userCoords, localRotation, args.User);
     }
 
+    /// <summary>
+    /// Goobstation - virtual method to allow calling from shared.
+    /// Does nothing on the client.
+    /// </summary>
+    public virtual EntityUid? Split(Entity<StackComponent?> ent, int amount, EntityCoordinates spawnPosition)
+    {
+        return null;
+    }
+
     private void OnStackStarted(Entity<StackComponent> ent, ref ComponentStartup args)
     {
         if (!TryComp(ent.Owner, out AppearanceComponent? appearance))
