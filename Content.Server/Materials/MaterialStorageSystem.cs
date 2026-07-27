@@ -146,7 +146,7 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         if (user != receiver) // Goobstation - for automation to not spam popups
             _popup.PopupEntity(Loc.GetString("machine-insert-item", ("user", user), ("machine", receiver),
                 ("item", toInsert)), receiver);
-        //QueueDel(toInsert); // Frontier
+        QueueDel(toInsert);
 
         // Logging
         TryComp<StackComponent>(toInsert, out var stack);

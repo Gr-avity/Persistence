@@ -26,7 +26,7 @@ namespace Content.Server.Construction
 {
     public sealed partial class ConstructionSystem
     {
-        [Dependency] private readonly IComponentFactory _factory = default!;
+        [Dependency] private readonly IComponentFactory _factory = default!; // Goobstation
         [Dependency] private readonly InventorySystem _inventorySystem = default!;
         [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
         [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
@@ -278,7 +278,7 @@ namespace Content.Server.Construction
             }
 
             var newEntityProto = graph.Nodes[edge.Target].Entity.GetId(null, user, new(EntityManager));
-            var newEntity = EntityManager.SpawnAttachedTo(newEntityProto, coords, rotation: angle);
+            var newEntity = SpawnAttachedTo(newEntityProto, coords, rotation: angle);
 
             if (!TryComp(newEntity, out ConstructionComponent? construction))
             {
@@ -360,7 +360,7 @@ namespace Content.Server.Construction
                 return false;
 
             if (HasComp<MindContainerComponent>(user)
-                && !HasComp<HandsComponent>(user)) // goobstation - don't require hands for constructor
+                && !HasComp<HandsComponent>(user)) // Goobstation - don't require hands for constructor
                 return false;
 
             foreach (var condition in constructionPrototype.Conditions)
@@ -427,7 +427,7 @@ namespace Content.Server.Construction
                     args.SenderSession);
         }
 
-/// <summary>
+        /// <summary>
         /// Goobstation - Taken out of HandleStartStructureConstruction
         /// Changed to return false and only send the ack event to the user.
         /// </summary>

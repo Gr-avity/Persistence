@@ -533,11 +533,11 @@ namespace Content.Shared.Interaction
             _adminLogger.Add(LogType.InteractHand, LogImpact.Low, $"{user} interacted with {target}");
             DoContactInteraction(user, target, message);
             if (message.Handled || userMessage.Handled)
-                return true;
+                return true; // Goobstation
 
             DebugTools.Assert(!IsDeleted(user) && !IsDeleted(target));
             // Else we run Activate.
-            return InteractionActivate(user,
+            return InteractionActivate(user, // Goobstation
                 target,
                 checkCanInteract: false,
                 checkUseDelay: true,
