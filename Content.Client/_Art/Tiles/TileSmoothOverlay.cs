@@ -6,7 +6,6 @@ using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using System.Numerics;
-using System.Linq;
 
 namespace Content.Client._Art.Tiles;
 
@@ -53,9 +52,30 @@ public sealed class TileSmoothOverlay : Overlay
         foreach (var key in keys)
             _cornerCache.Remove(key);
     }
-    public void InvalidateCache(EntityUid gridUid, Vector2i pos)
+
+    public void InvalidateAll()
     {
-        _cornerCache.Remove((gridUid, pos));
+        _cornerCache.Clear();
+        _rsiCache.Clear();
+    }
+
+    public void RecalculateTile(EntityUid gridUid, MapGridComponent grid, Vector2i pos)
+    {
+        if (!_mapSystem.TryGetTileRef(gridUid, grid, pos, out var tileRef) || tileRef.Tile.IsEmpty)
+        {
+            _cornerCache.Remove((gridUid, pos));
+            return;
+        }
+
+        var tileDef = _tileDefManager[tileRef.Tile.TypeId] as ContentTileDefinition;
+        if (tileDef?.SmoothKey == null)
+        {
+            _cornerCache.Remove((gridUid, pos));
+            return;
+        }
+
+        _cornerCache[(gridUid, pos)] =
+            CalculateCornerFill(gridUid, grid, pos, tileDef.SmoothKey, tileDef.SmoothConnectAll);
     }
 
     protected override void Draw(in OverlayDrawArgs args)
@@ -89,13 +109,9 @@ public sealed class TileSmoothOverlay : Overlay
                     continue;
 
                 var pos = tileRef.GridIndices;
-                var key = (grid.Owner, pos);
 
-                if (!_cornerCache.TryGetValue(key, out var corners))
-                {
-                    corners = CalculateCornerFill(grid.Owner, grid.Comp, pos, tileDef.SmoothKey, tileDef.SmoothConnectAll);
-                    _cornerCache[key] = corners;
-                }
+                if (!_cornerCache.TryGetValue((grid.Owner, pos), out var corners))
+                    continue;
 
                 DrawCorner(drawHandle, rsi, tileDef.SmoothBase, pos, corners.SE, RsiDirection.South);
                 DrawCorner(drawHandle, rsi, tileDef.SmoothBase, pos, corners.NE, RsiDirection.East);
@@ -154,8 +170,8 @@ public sealed class TileSmoothOverlay : Overlay
     {
         if (!_mapSystem.TryGetTileRef(gridUid, grid, pos, out var tileRef) || tileRef.Tile.IsEmpty)
             return false;
-		
-	    if (connectAll)  
+
+        if (connectAll)
             return true;
 
         var def = _tileDefManager[tileRef.Tile.TypeId] as ContentTileDefinition;
