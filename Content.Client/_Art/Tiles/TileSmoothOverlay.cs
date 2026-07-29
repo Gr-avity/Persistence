@@ -6,6 +6,7 @@ using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using System.Numerics;
+using System.Linq;
 
 namespace Content.Client._Art.Tiles;
 
