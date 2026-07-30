@@ -5,7 +5,7 @@ using Content.Shared.Chat;
 using Content.Shared.DeltaV.TapeRecorder;
 using Content.Shared.DeltaV.TapeRecorder.Components;
 using Content.Shared.DeltaV.TapeRecorder.Systems;
-using Content.Shared.Corvax.Barks;
+using Content.Shared._WL.Barks;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.Paper;
 using Content.Shared.Speech;

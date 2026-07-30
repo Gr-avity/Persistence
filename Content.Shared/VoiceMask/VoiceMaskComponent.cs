@@ -1,6 +1,6 @@
 using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
-using Content.Shared.Corvax.Barks;
+using Content.Shared._WL.Barks;
 
 namespace Content.Shared.VoiceMask;
 

@@ -1,5 +1,5 @@
 using Content.Shared.Corvax.TTS;
-using Content.Shared.Corvax.Barks;
+using Content.Shared._WL.Barks;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.IdentityManagement;

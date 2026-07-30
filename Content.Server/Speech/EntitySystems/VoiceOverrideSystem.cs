@@ -1,4 +1,4 @@
-using Content.Shared.Corvax.Barks;
+using Content.Shared._WL.Barks;
 using Content.Server.Speech.Components;
 using Content.Shared.Chat;
 
