@@ -1,3 +1,4 @@
+using Content.Shared.Corvax.Barks;
 using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 
@@ -33,12 +34,50 @@ public sealed partial class TapeCassetteRecordedMessage : IComparable<TapeCasset
     [DataField]
     public string Message = string.Empty;
 
-    public TapeCassetteRecordedMessage(float timestamp, string name, ProtoId<SpeechVerbPrototype> verb, string message)
+    // WL-Languages-start
+    [DataField]
+    public string Language = "Translate";
+    // WL-Languages-end
+
+    // WL-TTS-start
+    [DataField]
+    public string TTS = string.Empty;
+    // WL-TTS-end
+
+    [DataField]
+    public string BarkVoice = string.Empty;
+
+    [DataField]
+    public float BarkPitch = SpeechBarksComponent.DefaultPitch;
+
+    [DataField]
+    public float BarkMinDelay = SpeechBarksComponent.DefaultMinDelay;
+
+    [DataField]
+    public float BarkMaxDelay = SpeechBarksComponent.DefaultMaxDelay;
+
+    public TapeCassetteRecordedMessage(
+        float timestamp,
+        string name,
+        ProtoId<SpeechVerbPrototype> verb,
+        string message,
+        string language,
+        string tts,
+        string barkVoice,
+        float barkPitch,
+        float barkMinDelay,
+        float barkMaxDelay)
     {
         Timestamp = timestamp;
         Name = name;
         Verb = verb;
         Message = message;
+        Language = language; // WL-Languages: added Language support
+        TTS = tts;
+        BarkVoice = barkVoice;
+        BarkPitch = barkPitch;
+        BarkMinDelay = barkMinDelay;
+        BarkMaxDelay = barkMaxDelay;
     }
 
     public int CompareTo(TapeCassetteRecordedMessage? other)

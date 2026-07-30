@@ -1,3 +1,5 @@
+using Content.Shared.Corvax.TTS;
+using Content.Shared.Corvax.Barks;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.IdentityManagement;
@@ -29,6 +31,24 @@ public sealed class HumanoidProfileSystem : EntitySystem
         ent.Comp.Age = profile.Age;
         ent.Comp.Species = profile.Species;
         ent.Comp.Sex = profile.Sex;
+        // Corvax-TTS-start
+        ent.Comp.TTSVoice = profile.TTSVoice;
+        if (TryComp<TTSComponent>(ent, out var _TTSComponent) && _TTSComponent.VoicePrototypeId == "Taskmaster")
+        {
+            _TTSComponent.VoicePrototypeId = profile.TTSVoice;
+        }
+        if (TryComp<SpeechBarksComponent>(ent, out var barks))
+        {
+            barks.Voice = profile.BarkVoice;
+            barks.Pitch = profile.BarkPitch;
+            barks.MinDelay = profile.BarkMinDelay;
+            barks.MaxDelay = profile.BarkMaxDelay;
+        }
+        // Corvax-TTS-end
+        //Wl-Changes: Height start
+        ent.Comp.Height = profile.Height;
+        ApplyHeight(ent);
+        //Wl-Changes: Height end
         Dirty(ent);
 
         var sexChanged = new SexChangedEvent(ent.Comp.Sex, profile.Sex);
@@ -62,18 +82,18 @@ public sealed class HumanoidProfileSystem : EntitySystem
     }
 
     // Art-start
-	public string GetSpeciesRepresentation(EntityUid uid)  
-    {  
-        if (TryComp<HumanoidProfileComponent>(uid, out var profile))  
-            return GetSpeciesRepresentation(profile.Species);  
-        return Loc.GetString("humanoid-appearance-component-unknown-species");  
-    }  
-    
-    public Gender GetGender(EntityUid uid)  
-    {  
-        return TryComp<HumanoidProfileComponent>(uid, out var profile)  
-            ? profile.Gender  
-            : Gender.Epicene;  
+	public string GetSpeciesRepresentation(EntityUid uid)
+    {
+        if (TryComp<HumanoidProfileComponent>(uid, out var profile))
+            return GetSpeciesRepresentation(profile.Species);
+        return Loc.GetString("humanoid-appearance-component-unknown-species");
+    }
+
+    public Gender GetGender(EntityUid uid)
+    {
+        return TryComp<HumanoidProfileComponent>(uid, out var profile)
+            ? profile.Gender
+            : Gender.Epicene;
     }
     // Art-end
 

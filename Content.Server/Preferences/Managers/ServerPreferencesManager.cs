@@ -197,6 +197,8 @@ namespace Content.Server.Preferences.Managers
                 profile.CharacterName,
                 profile.FlavorText,
                 species,
+                TTSVoice, // Corvax-TTS
+                profile.BarkVoice,
                 profile.Age,
                 sex,
                 gender,
@@ -211,8 +213,22 @@ namespace Content.Server.Preferences.Managers
                 (PreferenceUnavailableMode)profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
-                loadouts
-            );
+                loadouts,
+                jobUnblockings, // WL-хуйня
+                profile.MedicalRecord, // WL-Records
+                profile.SecurityRecord, // WL-Records
+                profile.EmploymentRecord, // WL-Records
+                profile.FullName, // WL-Records
+                profile.DateOfBirth, // WL-Records
+                profile.Confederation, // WL-Records
+                profile.Country, // WL-Records
+                jobSkills // WL-Skills
+            )
+            {
+                BarkPitch = profile.BarkPitch,
+                BarkMinDelay = profile.BarkMinDelay,
+                BarkMaxDelay = profile.BarkMaxDelay,
+            };
         }
 
         private async void HandleSelectCharacterMessage(MsgSelectCharacter message)

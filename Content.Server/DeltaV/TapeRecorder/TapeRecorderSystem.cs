@@ -5,6 +5,8 @@ using Content.Shared.Chat;
 using Content.Shared.DeltaV.TapeRecorder;
 using Content.Shared.DeltaV.TapeRecorder.Components;
 using Content.Shared.DeltaV.TapeRecorder.Systems;
+using Content.Shared.Corvax.Barks;
+using Content.Shared.Corvax.TTS;
 using Content.Shared.Paper;
 using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
@@ -45,6 +47,38 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             voice.NameOverride = message.Name ?? ent.Comp.DefaultName;
             var verb = message.Verb ?? SharedChatSystem.DefaultSpeechVerb;
             speech.SpeechVerb = _proto.Index<SpeechVerbPrototype>(verb);
+
+            // WL-Changes-Start
+            if (TryComp<TTSComponent>(ent, out var tts))
+                tts.VoicePrototypeId = message.TTS;
+
+            if (!string.IsNullOrEmpty(message.BarkVoice) &&
+                _proto.HasIndex<BarkPrototype>(message.BarkVoice))
+            {
+                EnsureComp<SpeechBarksComponent>(ent);
+                voice.BarkVoiceOverride = message.BarkVoice;
+                voice.BarkPitchOverride = message.BarkPitch;
+                voice.BarkMinDelayOverride = message.BarkMinDelay;
+                voice.BarkMaxDelayOverride = message.BarkMaxDelay;
+            }
+            else
+            {
+                RemComp<SpeechBarksComponent>(ent);
+                voice.BarkVoiceOverride = null;
+                voice.BarkPitchOverride = null;
+                voice.BarkMinDelayOverride = null;
+                voice.BarkMaxDelayOverride = null;
+            }
+
+            if (TryComp<LanguagesComponent>(ent, out var languageComp))
+            {
+                // I already know that's a bad way to do it
+                languageComp.CurrentLanguage = message.Language != "Translate"
+                    ? message.Language
+                    : "Translate";
+            }
+            // WL-Changes-end
+
             //Play the message
             _chat.TrySendInGameICMessage(ent, message.Message, InGameICChatType.Speak, false);
         }
@@ -73,7 +107,48 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
         //Add a new entry to the tape
         var verb = _chat.GetSpeechVerb(args.Source, args.Message);
         var name = nameEv.VoiceName;
-        cassette.Comp.Buffer.Add(new TapeCassetteRecordedMessage(cassette.Comp.CurrentPosition, name, verb, args.Message));
+
+        // WL-Changes-Start
+        var language = "Translate";
+        var tts = string.Empty;
+        var barkVoice = string.Empty;
+        var barkPitch = SpeechBarksComponent.DefaultPitch;
+        var barkMinDelay = SpeechBarksComponent.DefaultMinDelay;
+        var barkMaxDelay = SpeechBarksComponent.DefaultMaxDelay;
+
+        if (TryComp<LanguagesComponent>(args.Source, out var languagesSpeaker) && languagesSpeaker.CurrentLanguage.HasValue)
+            language = languagesSpeaker.CurrentLanguage;
+
+        if (TryComp<TTSComponent>(args.Source, out var ttsComp))
+            tts = ttsComp.VoicePrototypeId ?? "";
+
+        if (TryComp<SpeechBarksComponent>(args.Source, out var barkComp))
+        {
+            var barkTransform = new TransformSpeakerBarkEvent(
+                args.Source,
+                barkComp.Voice,
+                barkComp.Pitch,
+                barkComp.MinDelay,
+                barkComp.MaxDelay);
+            RaiseLocalEvent(args.Source, barkTransform);
+            barkVoice = barkTransform.Voice;
+            barkPitch = barkTransform.Pitch;
+            barkMinDelay = barkTransform.MinDelay;
+            barkMaxDelay = barkTransform.MaxDelay;
+        }
+        // WL-Changes-end
+
+        cassette.Comp.Buffer.Add(new TapeCassetteRecordedMessage(
+            cassette.Comp.CurrentPosition,
+            name,
+            verb,
+            args.Message,
+            language,
+            tts,
+            barkVoice,
+            barkPitch,
+            barkMinDelay,
+            barkMaxDelay));
     }
 
     private void OnPrintMessage(Entity<TapeRecorderComponent> ent, ref PrintTapeRecorderMessage args)
