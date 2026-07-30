@@ -43,6 +43,7 @@ public sealed class HumanoidProfileSystem : EntitySystem
             barks.Pitch = profile.BarkPitch;
             barks.MinDelay = profile.BarkMinDelay;
             barks.MaxDelay = profile.BarkMaxDelay;
+            Dirty(ent.Owner, barks);
         }
         // Corvax-TTS-end
         //Wl-Changes: Height start
