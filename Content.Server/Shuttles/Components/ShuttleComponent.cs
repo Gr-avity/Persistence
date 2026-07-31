@@ -21,7 +21,7 @@ namespace Content.Server.Shuttles.Components
         /// Maximum velocity.
         /// </summary>
         [ViewVariables(VVAccess.ReadWrite)]
-        public float BaseMaxLinearVelocity = 50f;
+        public float BaseMaxLinearVelocity = 40f;
 
         public const float MaxAngularVelocity = 4f;
 
@@ -101,13 +101,13 @@ namespace Content.Server.Shuttles.Components
         /// At what Thrust-Weight-Ratio should this ship have the base max velocity as its maximum velocity.
         /// </summary>
         [DataField]
-        public float BaseMaxVelocityTWR = 20f;
+        public float BaseMaxVelocityTWR = 2f;
 
         /// <summary>
         /// How much should TWR affect max velocity.
         /// </summary>
         [DataField]
-        public float MaxVelocityScalingExponent = 0.6f;
+        public float MaxVelocityScalingExponent = 0.25f;
 
         /// <summary>
         /// Don't allow max velocity to go beyond this value.

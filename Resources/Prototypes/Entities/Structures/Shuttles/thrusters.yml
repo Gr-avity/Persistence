@@ -29,7 +29,7 @@
     - type: Rotatable
       rotateWhileAnchored: true
     - type: Thruster
-      thrust: 150 # art-edit
+      thrust: 100 # art-edit
       damage:
         types:
           Heat: 40
