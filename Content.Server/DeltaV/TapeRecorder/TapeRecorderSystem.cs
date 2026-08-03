@@ -5,8 +5,7 @@ using Content.Shared.Chat;
 using Content.Shared.DeltaV.TapeRecorder;
 using Content.Shared.DeltaV.TapeRecorder.Components;
 using Content.Shared.DeltaV.TapeRecorder.Systems;
-using Content.Shared._WL.Barks;
-using Content.Shared.Corvax.TTS;
+using Content.Shared._WL.Barks; // WL-Changes
 using Content.Shared.Paper;
 using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
@@ -52,6 +51,7 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             if (TryComp<TTSComponent>(ent, out var tts))
                 tts.VoicePrototypeId = message.TTS;
 
+            // WL-Changes-Start: Speech barks
             if (!string.IsNullOrEmpty(message.BarkVoice) &&
                 _proto.HasIndex<BarkPrototype>(message.BarkVoice))
             {
@@ -69,6 +69,7 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
                 voice.BarkMinDelayOverride = null;
                 voice.BarkMaxDelayOverride = null;
             }
+            // WL-Changes-End
 
             if (TryComp<LanguagesComponent>(ent, out var languageComp))
             {
@@ -136,8 +137,7 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             barkMinDelay = barkTransform.MinDelay;
             barkMaxDelay = barkTransform.MaxDelay;
         }
-        // WL-Changes-end
-
+        // WL-Changes: added language, TTS and speech bark support
         cassette.Comp.Buffer.Add(new TapeCassetteRecordedMessage(
             cassette.Comp.CurrentPosition,
             name,
@@ -149,6 +149,7 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             barkPitch,
             barkMinDelay,
             barkMaxDelay));
+        // WL-Changes-end
     }
 
     private void OnPrintMessage(Entity<TapeRecorderComponent> ent, ref PrintTapeRecorderMessage args)

@@ -213,10 +213,12 @@ namespace Content.Server.Database
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
             profile.TTSVoice = humanoid.TTSVoice; // Corvax-TTS
+            // WL-Changes-Start: Speech barks
             profile.BarkVoice = humanoid.BarkVoice;
             profile.BarkPitch = humanoid.BarkPitch;
             profile.BarkMinDelay = humanoid.BarkMinDelay;
             profile.BarkMaxDelay = humanoid.BarkMaxDelay;
+            // WL-Changes-End
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
