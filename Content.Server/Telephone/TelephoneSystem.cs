@@ -122,7 +122,8 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
                 barkSpeaker.Voice,
                 barkSpeaker.Pitch,
                 barkSpeaker.MinDelay,
-                barkSpeaker.MaxDelay);
+                barkSpeaker.MaxDelay,
+                barkSpeaker.PlayOnRadio);
             RaiseLocalEvent(args.MessageSource, barkTransform);
 
             var barkTelephone = EnsureComp<SpeechBarksComponent>(speaker);
@@ -130,6 +131,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
             barkTelephone.Pitch = barkTransform.Pitch;
             barkTelephone.MinDelay = barkTransform.MinDelay;
             barkTelephone.MaxDelay = barkTransform.MaxDelay;
+            barkTelephone.PlayOnRadio = barkTransform.PlayOnRadio;
         }
         else
         {
