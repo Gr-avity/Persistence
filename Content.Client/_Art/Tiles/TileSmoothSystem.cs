@@ -32,9 +32,9 @@ public sealed class TileSmoothSystem : EntitySystem
         _protoMan.PrototypesReloaded += OnPrototypesReloaded;
     }
 
-    public override void Update(float frameTime)
+    public override void FrameUpdate(float frameTime)
     {
-        base.Update(frameTime);
+        base.FrameUpdate(frameTime);
 
         while (_dirtyTiles.TryDequeue(out var entry))
         {
