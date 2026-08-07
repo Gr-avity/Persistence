@@ -112,7 +112,10 @@ public sealed class TileSmoothOverlay : Overlay
                 var pos = tileRef.GridIndices;
 
                 if (!_cornerCache.TryGetValue((grid.Owner, pos), out var corners))
-                    continue;
+                {
+                    corners = CalculateCornerFill(grid.Owner, grid.Comp, pos, tileDef.SmoothKey, tileDef.SmoothConnectAll);
+                    _cornerCache[(grid.Owner, pos)] = corners;
+                }
 
                 DrawCorner(drawHandle, rsi, tileDef.SmoothBase, pos, corners.SE, RsiDirection.South);
                 DrawCorner(drawHandle, rsi, tileDef.SmoothBase, pos, corners.NE, RsiDirection.East);
