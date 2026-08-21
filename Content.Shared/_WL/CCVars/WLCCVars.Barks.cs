@@ -12,7 +12,7 @@ public sealed partial class WLCVars
     public static readonly CVarDef<SpeechMode> SpeechMode =
         CVarDef.Create(
             "audio.speech_mode",
-            Content.Shared._WL.Barks.SpeechMode.Tts,
+            Content.Shared._WL.Barks.SpeechMode.Barks,
             CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /// <summary>
