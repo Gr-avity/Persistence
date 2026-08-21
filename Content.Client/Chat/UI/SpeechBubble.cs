@@ -231,7 +231,7 @@ namespace Content.Client.Chat.UI
         /// </summary>
         public void KeepAliveUntil(TimeSpan playbackEndTime)
         {
-            var requestedDeathTime = playbackEndTime + FadeTime;
+            var requestedDeathTime = playbackEndTime + _fadeTime;
             if (requestedDeathTime > _deathTime)
                 _deathTime = requestedDeathTime;
         }
