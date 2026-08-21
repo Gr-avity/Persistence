@@ -47,10 +47,6 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             var verb = message.Verb ?? SharedChatSystem.DefaultSpeechVerb;
             speech.SpeechVerb = _proto.Index<SpeechVerbPrototype>(verb);
 
-            // WL-Changes-Start
-            if (TryComp<TTSComponent>(ent, out var tts))
-                tts.VoicePrototypeId = message.TTS;
-
             // WL-Changes-Start: Speech barks
             if (!string.IsNullOrEmpty(message.BarkVoice) &&
                 _proto.HasIndex<BarkPrototype>(message.BarkVoice))
@@ -70,15 +66,6 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
                 voice.BarkMaxDelayOverride = null;
             }
             // WL-Changes-End
-
-            if (TryComp<LanguagesComponent>(ent, out var languageComp))
-            {
-                // I already know that's a bad way to do it
-                languageComp.CurrentLanguage = message.Language != "Translate"
-                    ? message.Language
-                    : "Translate";
-            }
-            // WL-Changes-end
 
             //Play the message
             _chat.TrySendInGameICMessage(ent, message.Message, InGameICChatType.Speak, false);
@@ -110,18 +97,10 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
         var name = nameEv.VoiceName;
 
         // WL-Changes-Start
-        var language = "Translate";
-        var tts = string.Empty;
         var barkVoice = string.Empty;
         var barkPitch = SpeechBarksComponent.DefaultPitch;
         var barkMinDelay = SpeechBarksComponent.DefaultMinDelay;
         var barkMaxDelay = SpeechBarksComponent.DefaultMaxDelay;
-
-        if (TryComp<LanguagesComponent>(args.Source, out var languagesSpeaker) && languagesSpeaker.CurrentLanguage.HasValue)
-            language = languagesSpeaker.CurrentLanguage;
-
-        if (TryComp<TTSComponent>(args.Source, out var ttsComp))
-            tts = ttsComp.VoicePrototypeId ?? "";
 
         if (TryComp<SpeechBarksComponent>(args.Source, out var barkComp))
         {
@@ -137,14 +116,12 @@ public sealed class TapeRecorderSystem : SharedTapeRecorderSystem
             barkMinDelay = barkTransform.MinDelay;
             barkMaxDelay = barkTransform.MaxDelay;
         }
-        // WL-Changes: added language, TTS and speech bark support
+        // WL-Changes: added speech bark support
         cassette.Comp.Buffer.Add(new TapeCassetteRecordedMessage(
             cassette.Comp.CurrentPosition,
             name,
             verb,
             args.Message,
-            language,
-            tts,
             barkVoice,
             barkPitch,
             barkMinDelay,

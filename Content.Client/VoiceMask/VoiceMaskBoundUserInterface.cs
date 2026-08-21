@@ -28,7 +28,6 @@ public sealed class VoiceMaskBoundUserInterface : BoundUserInterface
         _window.OnVerbChange += verb => SendMessage(new VoiceMaskChangeVerbMessage(verb));
         _window.OnToggle += OnToggle;
         _window.OnAccentToggle += OnAccentToggle;
-        _window.OnVoiceChange += voice => SendMessage(new VoiceMaskChangeVoiceMessage(voice)); // Corvax-TTS
         // WL-Changes-Start: Speech barks
         _window.OnBarkChange += bark => SendMessage(new VoiceMaskChangeBarkMessage(bark));
         _window.OnBarkPitchChange += pitch => SendMessage(new VoiceMaskChangeBarkPitchMessage(pitch));
@@ -63,8 +62,6 @@ public sealed class VoiceMaskBoundUserInterface : BoundUserInterface
             cast.Verb,
             cast.Active,
             cast.AccentHide,
-            cast.TitleText,
-            cast.TTSVoice,
             cast.BarkVoice,
             cast.BarkPitch);
         // WL-Changes-End

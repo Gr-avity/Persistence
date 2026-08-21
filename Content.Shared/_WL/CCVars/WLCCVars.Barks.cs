@@ -3,6 +3,7 @@ using Robust.Shared.Configuration;
 
 namespace Content.Shared._WL.CCVars;
 
+[CVarDefs]
 public sealed partial class WLCVars
 {
     /// <summary>

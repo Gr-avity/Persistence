@@ -1,4 +1,3 @@
-using Content.Shared.Corvax.TTS;
 using Content.Shared._WL.Barks; // WL-Changes
 using Content.Shared.Examine;
 using Content.Shared.Humanoid.Prototypes;
@@ -31,12 +30,6 @@ public sealed class HumanoidProfileSystem : EntitySystem
         ent.Comp.Age = profile.Age;
         ent.Comp.Species = profile.Species;
         ent.Comp.Sex = profile.Sex;
-        // Corvax-TTS-start
-        ent.Comp.TTSVoice = profile.TTSVoice;
-        if (TryComp<TTSComponent>(ent, out var _TTSComponent) && _TTSComponent.VoicePrototypeId == "Taskmaster")
-        {
-            _TTSComponent.VoicePrototypeId = profile.TTSVoice;
-        }
         // WL-Changes-Start: Speech barks
         if (TryComp<SpeechBarksComponent>(ent, out var barks))
         {
@@ -47,11 +40,6 @@ public sealed class HumanoidProfileSystem : EntitySystem
             Dirty(ent.Owner, barks);
         }
         // WL-Changes-End
-        // Corvax-TTS-end
-        //Wl-Changes: Height start
-        ent.Comp.Height = profile.Height;
-        ApplyHeight(ent);
-        //Wl-Changes: Height end
         Dirty(ent);
 
         var sexChanged = new SexChangedEvent(ent.Comp.Sex, profile.Sex);

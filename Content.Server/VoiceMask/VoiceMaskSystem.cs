@@ -197,8 +197,6 @@ public sealed partial class VoiceMaskSystem : EntitySystem
                 entity.Comp.VoiceMaskSpeechVerb,
                 entity.Comp.Active,
                 entity.Comp.AccentHide,
-                entity.Comp.TitleText,
-                entity.Comp.VoiceId,
                 entity.Comp.BarkVoice,
                 entity.Comp.BarkPitch));
         // WL-Changes-End

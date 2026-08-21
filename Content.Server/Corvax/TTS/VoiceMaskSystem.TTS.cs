@@ -1,5 +1,4 @@
 using Content.Shared._WL.Barks; // WL-Changes
-using Content.Shared.Corvax.TTS;
 using Content.Shared.Implants;
 using Content.Shared.Inventory;
 using Content.Shared.VoiceMask;
@@ -10,9 +9,6 @@ public partial class VoiceMaskSystem
 {
     private void InitializeTTS()
     {
-        SubscribeLocalEvent<VoiceMaskComponent, InventoryRelayedEvent<TransformSpeakerVoiceEvent>>(OnSpeakerVoiceTransform);
-        SubscribeLocalEvent<VoiceMaskComponent, VoiceMaskChangeVoiceMessage>(OnChangeVoice);
-        SubscribeLocalEvent<VoiceMaskComponent, ImplantRelayEvent<TransformSpeakerVoiceEvent>>(OnSpeakerVoiceTransformImplant);
         // WL-Changes-Start: Speech barks
         SubscribeLocalEvent<VoiceMaskComponent, InventoryRelayedEvent<TransformSpeakerBarkEvent>>(OnSpeakerBarkTransform);
         SubscribeLocalEvent<VoiceMaskComponent, ImplantRelayEvent<TransformSpeakerBarkEvent>>(OnSpeakerBarkTransformImplant);
@@ -20,31 +16,6 @@ public partial class VoiceMaskSystem
         SubscribeLocalEvent<VoiceMaskComponent, VoiceMaskChangeBarkMessage>(OnChangeBark);
         SubscribeLocalEvent<VoiceMaskComponent, VoiceMaskChangeBarkPitchMessage>(OnChangeBarkPitch);
         // WL-Changes-End
-    }
-
-    private void OnSpeakerVoiceTransform(EntityUid uid, VoiceMaskComponent component, InventoryRelayedEvent<TransformSpeakerVoiceEvent> args)
-    {
-        if (!component.Active)
-            return;
-        args.Args.VoiceId = component.VoiceId;
-    }
-
-    private void OnChangeVoice(Entity<VoiceMaskComponent> entity, ref VoiceMaskChangeVoiceMessage msg)
-    {
-        if (msg.Voice is { } id && !ProtoMan.HasIndex<TTSVoicePrototype>(id))
-            return;
-
-        entity.Comp.VoiceId = msg.Voice;
-
-        _popupSystem.PopupEntity(Loc.GetString("voice-mask-voice-popup-success"), entity);
-
-        UpdateUI(entity);
-    }
-    private void OnSpeakerVoiceTransformImplant(EntityUid uid, VoiceMaskComponent component, ImplantRelayEvent<TransformSpeakerVoiceEvent> args)
-    {
-        if (!component.Active)
-            return;
-        args.Args.VoiceId = component.VoiceId;
     }
 
     // WL-Changes-Start: Speech barks
@@ -70,7 +41,7 @@ public partial class VoiceMaskSystem
         VoiceMaskComponent component,
         ImplantRelayEvent<TransformSpeakerBarkEvent> args)
     {
-        TransformBark(component, args.Args);
+        TransformBark(component, args.Event);
     }
 
     private void OnInnateSpeakerBarkTransform(
@@ -83,7 +54,7 @@ public partial class VoiceMaskSystem
 
     private void OnChangeBark(Entity<VoiceMaskComponent> entity, ref VoiceMaskChangeBarkMessage msg)
     {
-        if (!ProtoMan.TryIndex<BarkPrototype>(msg.Bark, out var bark) || !bark.RoundStart)
+        if (!_proto.TryIndex<BarkPrototype>(msg.Bark, out var bark) || !bark.RoundStart)
             return;
 
         entity.Comp.BarkVoice = msg.Bark;

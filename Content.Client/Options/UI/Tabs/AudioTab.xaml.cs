@@ -1,7 +1,6 @@
 using Content.Client.Administration.Managers;
 using Content.Client.Audio;
 using Content.Shared.CCVar;
-using Content.Shared.Corvax.CCCVars;
 using Content.Shared._WL.Barks; // WL-Changes
 using Content.Shared._WL.CCVars; // WL-Changes
 using Robust.Client.Audio;
@@ -31,22 +30,9 @@ public sealed partial class AudioTab : Control
             scale: ContentAudioSystem.MasterVolumeMultiplier);
         masterVolume.ImmediateValueChanged += OnMasterVolumeSliderChanged;
 
-        // Corvax-TTS-Start
         // WL-Changes-Start: Speech mode and barks volume
-        var ttsEnabled = _cfg.GetCVar(CCCVars.TTSEnabled);
-        SliderVolumeTts.Visible = ttsEnabled;
-        Control.AddOptionPercentSlider(
-            CCCVars.TTSVolume,
-            SliderVolumeTts,
-            scale: ContentAudioSystem.TtsMultiplier);
 
         var speechModes = new List<OptionDropDownCVar<SpeechMode>.ValueOption>();
-        if (ttsEnabled)
-        {
-            speechModes.Add(new OptionDropDownCVar<SpeechMode>.ValueOption(
-                SpeechMode.Tts,
-                Loc.GetString("ui-options-speech-mode-tts")));
-        }
 
         speechModes.Add(new OptionDropDownCVar<SpeechMode>.ValueOption(
             SpeechMode.Barks,
@@ -55,8 +41,7 @@ public sealed partial class AudioTab : Control
             SpeechMode.Disabled,
             Loc.GetString("ui-options-speech-mode-disabled")));
 
-        if (!ttsEnabled && _cfg.GetCVar(WLCVars.SpeechMode) == SpeechMode.Tts)
-            _cfg.SetCVar(WLCVars.SpeechMode, SpeechMode.Barks);
+        _cfg.SetCVar(WLCVars.SpeechMode, SpeechMode.Barks);
 
         Control.AddOptionDropDown(
             WLCVars.SpeechMode,
@@ -68,7 +53,6 @@ public sealed partial class AudioTab : Control
             SliderVolumeBarks,
             scale: ContentAudioSystem.BarksMultiplier);
         // WL-Changes-End
-        // Corvax-TTS-End
 
         Control.AddOptionPercentSlider(
             CVars.MidiVolume,

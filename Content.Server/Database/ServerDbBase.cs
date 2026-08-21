@@ -212,7 +212,6 @@ namespace Content.Server.Database
             profile.CharacterName = humanoid.Name;
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
-            profile.TTSVoice = humanoid.TTSVoice; // Corvax-TTS
             // WL-Changes-Start: Speech barks
             profile.BarkVoice = humanoid.BarkVoice;
             profile.BarkPitch = humanoid.BarkPitch;

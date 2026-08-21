@@ -331,7 +331,6 @@ namespace Content.Server.Database
         public string Sex { get; set; } = null!;
         public string Gender { get; set; } = null!;
         public string Species { get; set; } = null!;
-        [Column("ttsvoice")] public string TTSVoice { get; set; } = null!; // Corvax-TTS
         // WL-Changes-Start: Speech barks
         public string BarkVoice { get; set; } = "Human1";
         public float BarkPitch { get; set; } = 1f;

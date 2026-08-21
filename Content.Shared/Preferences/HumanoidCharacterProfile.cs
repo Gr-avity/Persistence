@@ -142,7 +142,6 @@ namespace Content.Shared.Preferences
             string name,
             string flavortext,
             string species,
-            string TTS_voice, // Corvax-TTS
             int age,
             Sex sex,
             Gender gender,
@@ -157,7 +156,6 @@ namespace Content.Shared.Preferences
             Name = name;
             FlavorText = flavortext;
             Species = species;
-            TTSVoice = TTS_voice; // Corvax-TTS
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -189,7 +187,6 @@ namespace Content.Shared.Preferences
             : this(other.Name,
                 other.FlavorText,
                 other.Species,
-                other.TTSVoice,
                 other.Age,
                 other.Sex,
                 other.Gender,
@@ -516,7 +513,6 @@ namespace Content.Shared.Preferences
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
-            if (TTSVoice != other.TTSVoice) return false; // Corvax-TTS
             // WL-Changes-Start: Speech barks
             if (BarkVoice != other.BarkVoice) return false;
             if (BarkPitch != other.BarkPitch) return false;
@@ -673,12 +669,6 @@ namespace Content.Shared.Preferences
             _traitPreferences.Clear();
             _traitPreferences.UnionWith(GetValidTraits(traits, prototypeManager));
 
-            // Corvax-TTS-Start
-            prototypeManager.TryIndex<TTSVoicePrototype>(TTSVoice, out var TTS_voice);
-            if (TTS_voice is null || !CanHaveVoice(TTS_voice, Sex))
-                TTSVoice = HumanoidProfileSystem.DefaultSexVoice[sex];
-            // Corvax-TTS-End
-
             // WL-Changes-Start: Speech barks
             if (!prototypeManager.HasIndex<BarkPrototype>(BarkVoice))
                 BarkVoice = "Human1";
@@ -788,7 +778,6 @@ namespace Content.Shared.Preferences
             hashCode.Add(Species);
             hashCode.Add(Age);
             hashCode.Add((int)Sex);
-            hashCode.Add(TTSVoice); // Corvax-TTS
             // WL-Changes-Start: Speech barks
             hashCode.Add(BarkVoice);
             hashCode.Add(BarkPitch);

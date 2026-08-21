@@ -6,7 +6,6 @@ using Content.Shared.Chemistry;
 using Content.Shared.Chemistry.Events;
 using Content.Shared.Climbing.Events;
 using Content.Shared._WL.Barks; // WL-Changes
-using Content.Shared.Corvax.TTS;
 using Content.Shared.Contraband;
 using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;

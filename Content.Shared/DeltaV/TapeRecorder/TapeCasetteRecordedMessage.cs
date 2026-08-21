@@ -34,16 +34,6 @@ public sealed partial class TapeCassetteRecordedMessage : IComparable<TapeCasset
     [DataField]
     public string Message = string.Empty;
 
-    // WL-Languages-start
-    [DataField]
-    public string Language = "Translate";
-    // WL-Languages-end
-
-    // WL-TTS-start
-    [DataField]
-    public string TTS = string.Empty;
-    // WL-TTS-end
-
     // WL-Changes-Start: Speech barks
     [DataField]
     public string BarkVoice = string.Empty;
@@ -62,8 +52,6 @@ public sealed partial class TapeCassetteRecordedMessage : IComparable<TapeCasset
         string name,
         ProtoId<SpeechVerbPrototype> verb,
         string message,
-        string language,
-        string tts,
         string barkVoice,
         float barkPitch,
         float barkMinDelay,
@@ -73,8 +61,6 @@ public sealed partial class TapeCassetteRecordedMessage : IComparable<TapeCasset
         Name = name;
         Verb = verb;
         Message = message;
-        Language = language; // WL-Languages: added Language support
-        TTS = tts;
         BarkVoice = barkVoice;
         BarkPitch = barkPitch;
         BarkMinDelay = barkMinDelay;
