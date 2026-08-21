@@ -41,8 +41,6 @@ public sealed partial class AudioTab : Control
             SpeechMode.Disabled,
             Loc.GetString("ui-options-speech-mode-disabled")));
 
-        _cfg.SetCVar(WLCVars.SpeechMode, SpeechMode.Barks);
-
         Control.AddOptionDropDown(
             WLCVars.SpeechMode,
             DropDownSpeechMode,

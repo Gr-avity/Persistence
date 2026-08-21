@@ -38,8 +38,6 @@ public sealed partial class HumanoidProfileEditor
         _speechModeButton.AddItem(Loc.GetString("ui-options-speech-mode-disabled"), (int) SpeechMode.Disabled);
 
         var speechMode = _cfgManager.GetCVar(WLCVars.SpeechMode);
-        speechMode = SpeechMode.Barks;
-        _cfgManager.SetCVar(WLCVars.SpeechMode, speechMode);
 
         _speechModeButton.SelectId((int) speechMode);
         _speechModeButton.OnItemSelected += args =>

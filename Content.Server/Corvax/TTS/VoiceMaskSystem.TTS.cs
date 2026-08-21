@@ -58,7 +58,10 @@ public partial class VoiceMaskSystem
             return;
 
         entity.Comp.BarkVoice = msg.Bark;
-        _popupSystem.PopupEntity(Loc.GetString("voice-mask-voice-popup-success"), entity);
+        _popupSystem.PopupEntity(
+            Loc.GetString("voice-mask-voice-popup-success"),
+            entity,
+            msg.Actor);
         UpdateUI(entity);
     }
 
@@ -71,7 +74,10 @@ public partial class VoiceMaskSystem
             msg.Pitch,
             SpeechBarksComponent.MinPitch,
             SpeechBarksComponent.MaxPitch);
-        _popupSystem.PopupEntity(Loc.GetString("voice-mask-voice-popup-success"), entity);
+        _popupSystem.PopupEntity(
+            Loc.GetString("voice-mask-voice-popup-success"),
+            entity,
+            msg.Actor);
         UpdateUI(entity);
     }
     // WL-Changes-End
