@@ -4,12 +4,17 @@ using Content.Server.Atmos.Piping.Components;
 using Content.Server.NodeContainer.Nodes;
 using Content.Shared.NodeContainer;
 using Content.Shared.Atmos;
+using Content.Shared.Atmos.Components;
+using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
 using Content.Shared._Triad.Atmos;
 using Content.Shared._Triad.CCVar;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
+using Content.Server.Atmos.Components;
+using Content.Shared.Damage.Systems;
 
 namespace Content.IntegrationTests.Tests._Triad;
 
@@ -232,8 +237,8 @@ public sealed class RadiatorTest
 
         await server.WaitAssertion(() =>
         {
-            var damageable = entMan.GetComponent<DamageableComponent>(radiator);
-            Assert.That(damageable.TotalDamage.Float(), Is.EqualTo(0f).Within(0.01f),
+            var damageableSys = entMan.System<DamageableSystem>();
+            Assert.That(damageableSys.GetTotalDamage(radiator).Float(), Is.EqualTo(0f).Within(0.01f),
                 "Radiator took overheat damage with the cvar disabled.");
 
             var comp = entMan.GetComponent<HeatExchangerComponent>(radiator);
@@ -248,8 +253,8 @@ public sealed class RadiatorTest
 
         await server.WaitAssertion(() =>
         {
-            var damageable = entMan.GetComponent<DamageableComponent>(radiator);
-            Assert.That(damageable.TotalDamage.Float(), Is.GreaterThan(0f),
+            var damageableSys = entMan.System<DamageableSystem>();
+            Assert.That(damageableSys.GetTotalDamage(radiator).Float(), Is.GreaterThan(0f),
                 "White-hot radiator took no structural damage with the cvar enabled. " +
                 "Check that the radiator's damage container accepts the Structural type.");
 

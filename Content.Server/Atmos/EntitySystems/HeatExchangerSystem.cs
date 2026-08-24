@@ -18,6 +18,8 @@ using Robust.Shared.Audio.Systems; // Triad
 using Robust.Shared.GameObjects; // Triad
 using Robust.Shared.Prototypes; // Triad
 using Robust.Shared.Random; // Triad
+using Content.Shared.Damage.Systems; // Triad
+using Content.Shared.Temperature.Components; // Triad
 
 namespace Content.Server.Atmos.EntitySystems;
 
