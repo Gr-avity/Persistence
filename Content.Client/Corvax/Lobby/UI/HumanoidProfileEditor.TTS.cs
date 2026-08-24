@@ -27,24 +27,25 @@ public sealed partial class HumanoidProfileEditor
 
         speechTabs.AddChild(_barkTab);
         speechTabs.SetTabTitle(tabIndex, Loc.GetString("ui-options-speech-mode-barks"));
+        //  Art-changes start
+        // _speechModeButton = new OptionButton
+        // {
+        //     HorizontalAlignment = HAlignment.Right,
+        //     MinWidth = 180,
+        // };
 
-        _speechModeButton = new OptionButton
-        {
-            HorizontalAlignment = HAlignment.Right,
-            MinWidth = 180,
-        };
+        // _speechModeButton.AddItem(Loc.GetString("ui-options-speech-mode-barks"), (int) SpeechMode.Barks);
+        // _speechModeButton.AddItem(Loc.GetString("ui-options-speech-mode-disabled"), (int) SpeechMode.Disabled);
 
-        _speechModeButton.AddItem(Loc.GetString("ui-options-speech-mode-barks"), (int) SpeechMode.Barks);
-        _speechModeButton.AddItem(Loc.GetString("ui-options-speech-mode-disabled"), (int) SpeechMode.Disabled);
+        // var speechMode = _cfgManager.GetCVar(WLCVars.SpeechMode);
 
-        var speechMode = _cfgManager.GetCVar(WLCVars.SpeechMode);
-
-        _speechModeButton.SelectId((int) speechMode);
-        _speechModeButton.OnItemSelected += args =>
-        {
-            _speechModeButton.SelectId(args.Id);
-            _cfgManager.SetCVar(WLCVars.SpeechMode, (SpeechMode) args.Id);
-        };
+        // _speechModeButton.SelectId((int) speechMode);
+        // _speechModeButton.OnItemSelected += args =>
+        // {
+        //     _speechModeButton.SelectId(args.Id);
+        //     _cfgManager.SetCVar(WLCVars.SpeechMode, (SpeechMode) args.Id);
+        // };
+        // Art-changes end
 
         var modeText = new BoxContainer
         {
@@ -69,7 +70,7 @@ public sealed partial class HumanoidProfileEditor
             VerticalAlignment = VAlignment.Center,
         };
         modeRow.AddChild(modeText);
-        modeRow.AddChild(_speechModeButton);
+        // modeRow.AddChild(_speechModeButton);
 
         var voiceContainer = new BoxContainer
         {
