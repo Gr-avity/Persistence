@@ -268,7 +268,7 @@
     normalBodyTemperature: 310.15
     thermalRegulationTemperatureThreshold: 2
   - type: Perishable
-    rotAfter: 21600
+    rotAfter: 900 # Art-edit
   - type: Butcherable
     butcheringType: Spike
     spawned:
