@@ -11,6 +11,9 @@ public static partial class PoolManager
     public static readonly (string cvar, string value)[] TestCvars =
     {
         // @formatter:off
+        // <Trauma>
+        (TraumaCVars.DisableVisionEffects.Name, "true"), // they spawn entities a lot, similar to how audio entities which are ignored
+        // </Trauma>
         (CCVars.DatabaseSynchronous.Name,     "true"),
         (CCVars.DatabaseSqliteDelay.Name,     "0"),
         (CCVars.HolidaysEnabled.Name,         "false"),

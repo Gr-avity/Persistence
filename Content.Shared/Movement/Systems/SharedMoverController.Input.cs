@@ -373,7 +373,8 @@ namespace Content.Shared.Movement.Systems
             SetSprinting((uid, moverComp), subTick, walking);
         }
 
-        public (Vector2 Walking, Vector2 Sprinting) GetVelocityInput(InputMoverComponent mover)
+        public (Vector2 Walking, Vector2 Sprinting) GetVelocityInput(InputMoverComponent mover,
+            bool allowSprint = true) // Trauma - overrides mover.Sprinting below if false
         {
             if (!Timing.InSimulation)
             {
@@ -381,7 +382,7 @@ namespace Content.Shared.Movement.Systems
                 // So return a full-length vector as if it's a full tick.
                 // Physics system will have the correct time step anyways.
                 var immediateDir = DirVecForButtons(mover.HeldMoveButtons);
-                return mover.Sprinting ? (Vector2.Zero, immediateDir) : (immediateDir, Vector2.Zero);
+                return allowSprint && mover.Sprinting ? (Vector2.Zero, immediateDir) : (immediateDir, Vector2.Zero); // Trauma - check allowSprint
             }
 
             Vector2 walk;
@@ -403,7 +404,7 @@ namespace Content.Shared.Movement.Systems
 
             var curDir = DirVecForButtons(mover.HeldMoveButtons) * remainingFraction;
 
-            if (mover.Sprinting)
+            if (allowSprint && mover.Sprinting) // Trauma - check allowSprint
             {
                 sprint += curDir;
             }
